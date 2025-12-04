@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 80vh;">
+
+    <div class="card shadow-lg p-4"
+         style="
+            width: 380px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+         ">
+
+        <h3 class="text-center mb-4"
+            style="font-weight: 600; color:#4a148c;">
+            Login
+        </h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 500; color:#4a148c;">Username</label>
+                <input type="text" name="username"
+                       class="form-control"
+                       style="
+                           border-radius: 10px;
+                           padding: 10px;
+                           border: 1px solid #d1c4e9;
+                           transition: 0.3s;
+                       "
+                       onfocus="this.style.boxShadow='0 0 8px #ce93d8'"
+                       onblur="this.style.boxShadow='none'"
+                       placeholder="Enter Username"
+                       required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 500; color:#4a148c;">Password</label>
+                <input type="password" name="password"
+                       class="form-control"
+                       style="
+                           border-radius: 10px;
+                           padding: 10px;
+                           border: 1px solid #d1c4e9;
+                           transition: 0.3s;
+                       "
+                       onfocus="this.style.boxShadow='0 0 8px #ce93d8'"
+                       onblur="this.style.boxShadow='none'"
+                       placeholder="Enter Password"
+                       required>
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                    class="btn w-100"
+                    style="
+                        background: linear-gradient(135deg, #7b1fa2, #ba68c8);
+                        border: none;
+                        color: white;
+                        padding: 10px;
+                        border-radius: 12px;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                        box-shadow: 0 4px 15px rgba(123,31,162,0.3);
+                        transition: 0.3s;
+                    "
+                    onmouseover="this.style.opacity='0.9'"
+                    onmouseout="this.style.opacity='1'">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

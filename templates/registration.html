@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="shadow p-4 rounded bg-white">
+
+        {% if registered %}
+            <h2 class="mb-4 text-center text-success">
+                Thank you, form submitted successfully!
+            </h2>
+
+            <p class="text-center">
+                Try to login to your account:
+                <a href="{% url 'login' %}" class="fw-bold">Login</a>
+            </p>
+
+        {% else %}
+
+            <h2 class="mb-4 text-center">Registration Form</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- 1st row -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        {{ forms1.username|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ forms1.email|as_crispy_field }}
+                    </div>
+                </div>
+
+                <!-- 2nd row -->
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        {{ forms2.house_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ forms2.phone|as_crispy_field }}
+                    </div>
+                </div>
+
+                <!-- 3rd row -->
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        {{ forms2.street|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ forms2.city|as_crispy_field }}
+                    </div>
+                </div>
+
+                <!-- 4th row -->
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        {{ forms2.state|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ forms2.zipcode|as_crispy_field }}
+                    </div>
+                </div>
+
+                <!-- Full width fields -->
+                <div class="row g-4 mt-2">
+                    <div class="col-12">
+                        {{ forms2.userpic|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                        {{ forms1.password|as_crispy_field }}
+                    </div>
+                </div>
+
+                <!-- Captcha -->
+                <div class="mt-4">
+                    {{ forms2.captcha|as_crispy_field }}
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">REGISTER</button>
+            </form>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

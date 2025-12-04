@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .d_container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div class="container">
+    <h3 class="mt-5">Display</h3>
+    <div class="d_container">
+
+        <div class="row">
+            {% for data in emp_data %}
+            <div class="col-md-4 mb-4">
+                <div class="card p-3 shadow-sm">
+                    {% if data.image %}
+                        <img src="media/{{ data.image }}" alt="No image" width="100%" height="30%"><br>
+                    {% else %}
+                        <p>No image is present</p>
+                    {% endif %}
+                    <h5>{{ data.name }}</h5>
+                    <p>Email: {{ data.email }}</p>
+                    <p>Phone: {{ data.phone }}</p>
+                    <p>Department: {{ data.department }}</p>
+                    <p>Address: {{ data.address }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

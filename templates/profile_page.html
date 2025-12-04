@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    
+    .profile-main-row .card {
+        min-height: 400px;
+    }
+
+    .profile-sections-row .card {
+        min-height: 300px;
+    }
+
+    .profile-info-row .card {
+        min-height: 250px;
+    }
+
+    .profile-main-row,
+    .profile-sections-row,
+    .profile-info-row {
+        display: flex;
+        align-items: stretch;
+    }
+</style>
+
+<div class="container py-5 profile-container">
+
+    <h1 class="text-center mb-5 profile-title">User Profile</h1>
+
+    <div class="row g-4 profile-main-row">
+
+        <div class="col-md-9 " style="min-height: 400px;">
+            <div class="card shadow-sm mb-4 profile-main-card">
+                <div class="card-body profile-main-card-body">
+                    <h4 class="profile-section-title">Main Information</h4>
+                    <p><strong>Name:</strong> John Michael Carter</p>
+                    <p><strong>Email:</strong> john.carter@example.com</p>
+                    <p><strong>Occupation:</strong> Senior Software Engineer</p>
+                    <p><strong>Location:</strong> Austin, Texas, USA</p>
+                    <p><strong>Bio:</strong> Passionate full-stack developer with 7+ years of experience building
+                        scalable web applications and AI-driven tools.</p>
+                    <hr>
+                    <p><strong>Connect with me:</strong></p>
+
+                    <!-- Icons -->
+                    <i class="bi bi-facebook fs-4 me-2 profile-icon"></i>
+                    <i class="bi bi-instagram fs-4 me-2 profile-icon"></i>
+                    <i class="bi bi-linkedin fs-4 me-2 profile-icon"></i>
+                    <i class="bi bi-twitter fs-4 profile-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" style="min-height: 400px;">
+            <div class="card shadow-sm text-center profile-sidebar-card">
+                <div class="card-body profile-sidebar-body">
+                    <img src="{% static 'images/peacock.jpg' %}" alt="User Image"
+                        class="img-fluid rounded-circle mb-3 profile-sidebar-img"
+                        style="width:120px; height:120px; object-fit:cover;">
+                    <h4 class="profile-sidebar-title">Sidebar Info</h4>
+                    <p><strong>Age:</strong> 25</p>
+                    <p><strong>Member Since:</strong> 2021</p>
+                    <p><strong>Status:</strong> Active</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1 profile-sections-row">
+        <div class="col-md-6">
+            <div class="card shadow-sm profile-section-card">
+                <div class="card-body profile-section-body">
+                    <h4 class="profile-section-title">Profile Section A</h4>
+                    <p><strong>Skills:</strong> Python, Django, React, Docker, PostgreSQL, Machine Learning</p>
+                    <p><strong>Experience:</strong> 7 years in web development & cloud architecture</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm profile-section-card">
+                <div class="card-body profile-section-body">
+                    <h4 class="profile-section-title">Profile Section B</h4>
+                    <p><strong>Hobbies:</strong> Photography, Cycling, Chess, Playing Guitar</p>
+                    <p><strong>Languages:</strong> English, Spanish</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1 profile-info-row">
+        <div class="col-md-4">
+            <div class="card shadow-sm profile-info-card">
+                <div class="card-body profile-info-body">
+                    <h4 class="profile-info-title">Info Box 1</h4>
+                    <p><strong>Latest Activity:</strong> Updated project repository on GitHub</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm profile-info-card">
+                <div class="card-body profile-info-body">
+                    <h4 class="profile-info-title">Info Box 2</h4>
+                    <p><strong>Projects:</strong> AI Chatbot, E-commerce Dashboard, Task Manager App</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm profile-info-card">
+                <div class="card-body profile-info-body">
+                    <h4 class="profile-info-title">Info Box 3</h4>
+                    <p><strong>Contact:</strong> +1 512-430-9933</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

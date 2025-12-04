@@ -1,0 +1,46 @@
+ body {
+     background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+     min-height: 100vh;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+ }
+
+ .form-container {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+ }
+
+ .form-card {
+     border: none;
+     border-radius: 15px;
+     max-width: 500px;
+     width: 100%;
+ }
+
+ h3 {
+     color: #4a148c;
+ }
+
+ button {
+     font-weight: 500;
+     background-color: #6f42c1 !important;
+     border: none;
+ }
+
+ button:hover {
+     background-color: #5a32a3 !important;
+ }
+
+ .form-control {
+     border-radius: 10px;
+ }
+
+ .errorlist {
+     color: red;
+     list-style: none;
+     padding: 0;
+ }

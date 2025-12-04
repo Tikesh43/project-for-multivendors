@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .data-container {
+        margin-top: 50px;
+        padding: 50px;
+        width: 100%;
+        min-height: 700px;
+    }
+
+    table {
+        width: 90%;
+        border-collapse: collapse;
+
+        font-family: Arial, sans-serif;
+    }
+
+    th,
+    td {
+        border: 1px solid #333;
+        padding: 8px 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+        font-size: large;
+        font-weight: 400;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    h1,
+    h3 {
+        font-family: Arial, sans-serif;
+    }
+</style>
+
+
+<div class="data-container">
+    <h1>Employee List</h1>
+    <table border="2" cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Mobile No.</th>
+                <th>Address</th>
+                <!-- <th>Images</th> -->
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.designation }}</td>
+                <td>{{ emp.salary }}</td>
+                <td>{{ emp.phone }}</td>
+                <td>{{ emp.address }}</td>
+                <td>
+                    <button><i class="bi bi-trash3-fill"></i></button>
+                    <button><i class="bi bi-pencil-fill"></i></button>
+                </td>
+                <!-- <td>
+                    {% if emp.userpic %}
+                    <img src="{{ emp.userpic.url }}" alt="no images">
+                    {% else %}
+                    <p>NO image is present</p>
+                    {% endif %}
+                </td> -->
+
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No employees found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

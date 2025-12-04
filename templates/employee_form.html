@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-center"
+     style="width: 100%; min-height: 85vh;">
+
+    <div class="shadow-lg m-4 p-4"
+         style="
+            border: none;
+            border-radius: 18px;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+         ">
+
+        <h3 class="text-center mb-4"
+            style="color: #4a148c; font-weight: 600;">
+            Employee Registration Form
+        </h3>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div style="font-size: 1rem;">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit"
+                    class="btn w-100 mt-2"
+                    style="
+                        font-weight: 600;
+                        background: linear-gradient(135deg, #7b1fa2, #ba68c8);
+                        border: none;
+                        padding: 10px;
+                        border-radius: 12px;
+                        color: #fff;
+                        box-shadow: 0 4px 15px rgba(123,31,162,0.3);
+                        transition: 0.3s;
+                    "
+                    onmouseover="this.style.opacity='0.9'"
+                    onmouseout="this.style.opacity='1'">
+                Submit
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

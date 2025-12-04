@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div style="
+    width: 95%;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    min-height: 90vh;
+">
+
+    <!-- Dashboard Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h3 style="color: #6a1b9a; font-weight: 700;">Dashboard</h3>
+        {% if user_type == "vendor" and multivendors %}
+        <a href="{% url 'add_menu' multivendors.id %}" style="
+            background: linear-gradient(135deg, #7b1fa2, #ba68c8);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(123,31,162,0.3);
+            transition: 0.3s;
+        " onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-2px)';"
+            onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)';">
+            🍽 Build Menu
+        </a>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+
+        <!-- Profile Section -->
+        <div style="flex: 1; text-align: center; min-width: 280px;">
+            <h4 style="margin-bottom: 20px; font-weight: 600;">Welcome, {{ user.username }}</h4>
+
+            {% if user_type == "vendor" and multivendors and multivendors.restaurant_img %}
+            <img src="{{ multivendors.restaurant_img.url }}" style="
+                width: 180px;
+                border-radius: 50%;
+                border: 4px solid #7b1fa2;
+                box-shadow: 0 5px 20px rgba(123,31,162,0.3);
+            ">
+            {% elif user_type == "customer" and customer and customer.userpic %}
+            <img src="{{ customer.userpic.url }}" style="
+                width: 180px;
+                border-radius: 50%;
+                border: 4px solid #7b1fa2;
+                box-shadow: 0 5px 20px rgba(123,31,162,0.3);
+            ">
+            {% else %}
+            <img src="{% static 'images/user.png' %}" style="
+                width: 180px;
+                border-radius: 50%;
+                border: 4px solid #7b1fa2;
+                box-shadow: 0 5px 20px rgba(123,31,162,0.3);
+            ">
+            {% endif %}
+        </div>
+
+        <!-- Details Section -->
+        <div style="flex: 2; min-width: 300px;">
+            <ul style="
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                background: rgba(255,255,255,0.9);
+                border-radius: 20px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                overflow: hidden;
+            ">
+                {% if user_type == "vendor" and multivendors %}
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>Shop Name</span> <strong>{{ multivendors.restaurant_name|default:"N/A" }}</strong>
+                </li>
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>Address</span> <strong>{{ multivendors.address|default:"N/A" }}</strong>
+                </li>
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>City</span> <strong>{{ multivendors.city|default:"N/A" }}</strong>
+                </li>
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>State</span> <strong>{{ multivendors.state|default:"N/A" }}</strong>
+                </li>
+                <li style="display:flex; justify-content: space-between; padding: 15px 20px;">
+                    <span>Zip Code</span> <strong>{{ multivendors.zip_code|default:"N/A" }}</strong>
+                </li>
+                {% elif user_type == "customer" and customer %}
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>Email</span> <strong>{{ user.email|default:"N/A" }}</strong>
+                </li>
+                <li
+                    style="display:flex; justify-content: space-between; padding: 15px 20px; border-bottom:1px solid rgba(0,0,0,0.05);">
+                    <span>Phone</span> <strong>{{ customer.phone|default:"N/A" }}</strong>
+                </li>
+                <li style="display:flex; justify-content: space-between; padding: 15px 20px;">
+                    <span>Address</span>
+                    <strong>{{ customer.house_no }}, {{ customer.street }}, {{ customer.city }}, {{ customer.state }},
+                        {{ customer.zipcode }}</strong>
+                </li>
+                {% else %}
+                <li style="text-align:center; padding:20px; color:#999;">No details available.</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="text-align:center; margin-top:40px;">
+        <a href="{% url 'update_details' %}" style="
+            display:inline-block;
+            margin-right:10px;
+            background: linear-gradient(135deg, #7b1fa2, #ba68c8);
+            color:#fff;
+            padding:10px 30px;
+            border-radius:50px;
+            font-weight:600;
+            text-decoration:none;
+            box-shadow:0 5px 15px rgba(123,31,162,0.3);
+            transition:0.3s;
+        " onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-2px)';"
+            onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)';">
+            Update Profile
+        </a>
+        <a href="{% url 'logout' %}" style="
+            display:inline-block;
+            background:#e53935;
+            color:#fff;
+            padding:10px 30px;
+            border-radius:50px;
+            font-weight:600;
+            text-decoration:none;
+            box-shadow:0 5px 15px rgba(229,57,53,0.3);
+            transition:0.3s;
+        " onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-2px)';"
+            onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)';">
+            Logout
+        </a>
+    </div>
+
+    <!-- Vendor Menu Items -->
+    {% if user_type == "vendor" %}
+    <div style="margin-top:50px;">
+        <h4 style="color:#6a1b9a; font-weight:700; margin-bottom:30px;">Your Menu Items</h4>
+        {% if menu_items %}
+        <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:flex-start;">
+            {% for item in menu_items %}
+            <div style="width:300px;">
+                <div style="
+                background: rgba(255,255,255,0.9);
+                border-radius:20px;
+                overflow:hidden;
+                box-shadow:0 8px 25px rgba(0,0,0,0.15);
+                transition:0.3s;
+            " onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 18px 35px rgba(0,0,0,0.25)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';">
+                    {% if item.food_img %}
+                    <img src="{{ item.food_img.url }}" style="width:100%; height:220px; object-fit:cover;">
+                    {% else %}
+                    <img src="{% static 'images/food_placeholder.png' %}"
+                        style="width:100%; height:220px; object-fit:cover;">
+                    {% endif %}
+                    <div style="padding:15px;">
+                        <h5 style="font-weight:600; color:#4a148c;">{{ item.food_name }}</h5>
+                        <p style="font-weight:500; color:#1b5e20;">Price: ${{ item.price }}</p>
+                        <a href="#" style="
+                        display:inline-block;
+                        margin-right:5px;
+                        padding:5px 15px;
+                        border-radius:50px;
+                        border:1px solid #7b1fa2;
+                        color:#7b1fa2;
+                        text-decoration:none;
+                        font-size:14px;
+                    " onmouseover="this.style.background='#7b1fa2'; this.style.color='#fff';"
+                            onmouseout="this.style.background='transparent'; this.style.color='#7b1fa2';">Edit</a>
+                        <a href="#" style="
+                        display:inline-block;
+                        padding:5px 15px;
+                        border-radius:50px;
+                        border:1px solid #e53935;
+                        color:#e53935;
+                        text-decoration:none;
+                        font-size:14px;
+                    " onmouseover="this.style.background='#e53935'; this.style.color='#fff';"
+                            onmouseout="this.style.background='transparent'; this.style.color='#e53935';">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:#999;">You have not added any food items yet.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
