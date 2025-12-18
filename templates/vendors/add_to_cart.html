@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+.page-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #8e24aa, #d500f9, #4a148c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 6s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.cart-card {
+    display: flex;
+    flex-wrap: wrap;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(16px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+    margin-bottom: 30px;
+    transition: 0.4s ease;
+}
+
+.cart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 70px rgba(0,0,0,0.28);
+}
+
+.food-img {
+    flex: 1 1 250px;
+    border-radius: 20px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 25px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+}
+
+.cart-info {
+    flex: 2 1 400px;
+}
+
+.cart-info h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #4a148c;
+    margin-bottom: 10px;
+}
+
+.cart-info p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.qty-selector {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.qty-selector button {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background: #8e24aa;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.qty-selector button:hover {
+    background: #6a1b9a;
+}
+
+.qty-selector input {
+    width: 60px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 14px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+    cursor: pointer;
+    transition: 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.checkout-btn:hover {
+    transform: scale(1.05) rotate(-1deg);
+    opacity: 0.92;
+}
+
+@media(max-width:768px){
+    .cart-card { flex-direction: column; align-items: center; }
+    .food-img { margin-right:0; margin-bottom:20px; height:180px; width:100%; }
+}
+</style>
+
+<div class="page-container">
+    <h1 class="page-title">Added to Cart</h1>
+
+    {% for item in cart_items %}
+    <div class="cart-card">
+        {% if item.food.food_img %}
+        <img src="{{ item.food.food_img.url }}" class="food-img">
+        {% else %}
+        <div class="food-img" style="display:flex; align-items:center; justify-content:center; background:#f3e5f5; color:#8e24aa; font-style:italic;">
+            No Image
+        </div>
+        {% endif %}
+
+        <div class="cart-info">
+            <h2>{{ item.food.food_name }}</h2>
+            <p>Price per item: ₹{{ item.food.price }}</p>
+
+            <div class="qty-selector">
+                <button type="button" onclick="changeQty({{ item.id }}, -1)">-</button>
+                <input type="number" id="qty-{{ item.id }}" value="{{ item.quantity }}" min="1" data-price="{{ item.food.price }}" oninput="updateTotal({{ item.id }})">
+                <button type="button" onclick="changeQty({{ item.id }}, 1)">+</button>
+            </div>
+
+            <p class="total-price">Total: ₹<span id="total-{{ item.id }}">{{ item.total_price }}</span></p>
+
+            <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+    {% empty %}
+    <p style="text-align:center; color:#888;">Your cart is empty.</p>
+    {% endfor %}
+</div>
+
+<script>
+function changeQty(id, delta) {
+    const input = document.getElementById(`qty-${id}`);
+    let qty = parseInt(input.value) + delta;
+    if(qty < 1) qty = 1;
+    input.value = qty;
+    updateTotal(id);
+}
+
+function updateTotal(id) {
+    const input = document.getElementById(`qty-${id}`);
+    let qty = parseInt(input.value);
+    if (isNaN(qty) || qty < 1) qty = 1;
+    input.value = qty;
+
+    const totalEl = document.getElementById(`total-${id}`);
+    const price = parseFloat(input.dataset.price);
+    totalEl.innerText = (price * qty).toFixed(2);
+}
+</script>
+
+{% endblock %}

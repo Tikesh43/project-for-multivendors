@@ -1,118 +1,135 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}Profile{% endblock %}
+
 {% block content %}
 <style>
-    
-    .profile-main-row .card {
-        min-height: 400px;
-    }
+.profile-container {
+    max-width: 1200px;
+}
 
-    .profile-sections-row .card {
-        min-height: 300px;
-    }
+.profile-title {
+    font-weight: 700;
+    color: #6a1b9a;
+}
 
-    .profile-info-row .card {
-        min-height: 250px;
-    }
+.glass-card {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    height: 100%;
+}
 
-    .profile-main-row,
-    .profile-sections-row,
-    .profile-info-row {
-        display: flex;
-        align-items: stretch;
-    }
+.section-title {
+    font-weight: 600;
+    color: #6a1b9a;
+    margin-bottom: 12px;
+}
+
+.profile-icon {
+    cursor: pointer;
+    color: #6a1b9a;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.profile-icon:hover {
+    transform: scale(1.2);
+    color: #ab47bc;
+}
+
+.profile-avatar {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid rgba(106,27,154,0.2);
+}
+
+.info-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 50px;
+    background: rgba(106,27,154,0.1);
+    color: #6a1b9a;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
 </style>
 
 <div class="container py-5 profile-container">
 
     <h1 class="text-center mb-5 profile-title">User Profile</h1>
 
-    <div class="row g-4 profile-main-row">
-
-        <div class="col-md-9 " style="min-height: 400px;">
-            <div class="card shadow-sm mb-4 profile-main-card">
-                <div class="card-body profile-main-card-body">
-                    <h4 class="profile-section-title">Main Information</h4>
-                    <p><strong>Name:</strong> John Michael Carter</p>
-                    <p><strong>Email:</strong> john.carter@example.com</p>
-                    <p><strong>Occupation:</strong> Senior Software Engineer</p>
-                    <p><strong>Location:</strong> Austin, Texas, USA</p>
-                    <p><strong>Bio:</strong> Passionate full-stack developer with 7+ years of experience building
-                        scalable web applications and AI-driven tools.</p>
-                    <hr>
-                    <p><strong>Connect with me:</strong></p>
-
-                    <!-- Icons -->
-                    <i class="bi bi-facebook fs-4 me-2 profile-icon"></i>
-                    <i class="bi bi-instagram fs-4 me-2 profile-icon"></i>
-                    <i class="bi bi-linkedin fs-4 me-2 profile-icon"></i>
-                    <i class="bi bi-twitter fs-4 profile-icon"></i>
+    <div class="row g-4 align-items-stretch">
+        <div class="col-md-9">
+            <div class="glass-card p-4">
+                <h4 class="section-title">Main Information</h4>
+                <p><strong>Name:</strong> John Michael Carter</p>
+                <p><strong>Email:</strong> john.carter@example.com</p>
+                <p><strong>Occupation:</strong> Senior Software Engineer</p>
+                <p><strong>Location:</strong> Austin, Texas, USA</p>
+                <p><strong>Bio:</strong> Passionate full-stack developer with 7+ years of experience building scalable web applications and AI-driven tools.</p>
+                <hr>
+                <div>
+                    <strong>Connect:</strong>
+                    <i class="bi bi-facebook fs-4 ms-3 profile-icon"></i>
+                    <i class="bi bi-instagram fs-4 ms-3 profile-icon"></i>
+                    <i class="bi bi-linkedin fs-4 ms-3 profile-icon"></i>
+                    <i class="bi bi-twitter fs-4 ms-3 profile-icon"></i>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3" style="min-height: 400px;">
-            <div class="card shadow-sm text-center profile-sidebar-card">
-                <div class="card-body profile-sidebar-body">
-                    <img src="{% static 'images/peacock.jpg' %}" alt="User Image"
-                        class="img-fluid rounded-circle mb-3 profile-sidebar-img"
-                        style="width:120px; height:120px; object-fit:cover;">
-                    <h4 class="profile-sidebar-title">Sidebar Info</h4>
-                    <p><strong>Age:</strong> 25</p>
-                    <p><strong>Member Since:</strong> 2021</p>
-                    <p><strong>Status:</strong> Active</p>
-                </div>
+        <div class="col-md-3">
+            <div class="glass-card text-center p-4">
+                <img src="{% static 'images/peacock.jpg' %}" class="profile-avatar mb-3">
+                <h5 class="fw-bold">John Carter</h5>
+                <p class="text-muted mb-2">Active Member</p>
+                <div class="info-badge mb-2">Age: 25</div><br>
+                <div class="info-badge">Member Since 2021</div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 mt-1 profile-sections-row">
+    <div class="row g-4 mt-4">
         <div class="col-md-6">
-            <div class="card shadow-sm profile-section-card">
-                <div class="card-body profile-section-body">
-                    <h4 class="profile-section-title">Profile Section A</h4>
-                    <p><strong>Skills:</strong> Python, Django, React, Docker, PostgreSQL, Machine Learning</p>
-                    <p><strong>Experience:</strong> 7 years in web development & cloud architecture</p>
-                </div>
+            <div class="glass-card p-4">
+                <h4 class="section-title">Professional Details</h4>
+                <p><strong>Skills:</strong> Python, Django, React, Docker, PostgreSQL, Machine Learning</p>
+                <p><strong>Experience:</strong> 7+ Years</p>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="card shadow-sm profile-section-card">
-                <div class="card-body profile-section-body">
-                    <h4 class="profile-section-title">Profile Section B</h4>
-                    <p><strong>Hobbies:</strong> Photography, Cycling, Chess, Playing Guitar</p>
-                    <p><strong>Languages:</strong> English, Spanish</p>
-                </div>
+            <div class="glass-card p-4">
+                <h4 class="section-title">Personal Interests</h4>
+                <p><strong>Hobbies:</strong> Photography, Cycling, Chess, Guitar</p>
+                <p><strong>Languages:</strong> English, Spanish</p>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 mt-1 profile-info-row">
+    <div class="row g-4 mt-4">
         <div class="col-md-4">
-            <div class="card shadow-sm profile-info-card">
-                <div class="card-body profile-info-body">
-                    <h4 class="profile-info-title">Info Box 1</h4>
-                    <p><strong>Latest Activity:</strong> Updated project repository on GitHub</p>
-                </div>
+            <div class="glass-card p-4">
+                <h5 class="section-title">Latest Activity</h5>
+                <p>Updated GitHub repository</p>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-sm profile-info-card">
-                <div class="card-body profile-info-body">
-                    <h4 class="profile-info-title">Info Box 2</h4>
-                    <p><strong>Projects:</strong> AI Chatbot, E-commerce Dashboard, Task Manager App</p>
-                </div>
+            <div class="glass-card p-4">
+                <h5 class="section-title">Projects</h5>
+                <p>AI Chatbot, E-commerce Dashboard, Task Manager</p>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-sm profile-info-card">
-                <div class="card-body profile-info-body">
-                    <h4 class="profile-info-title">Info Box 3</h4>
-                    <p><strong>Contact:</strong> +1 512-430-9933</p>
-                </div>
+            <div class="glass-card p-4">
+                <h5 class="section-title">Contact</h5>
+                <p>+1 512-430-9933</p>
             </div>
         </div>
     </div>

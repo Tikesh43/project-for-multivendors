@@ -1,74 +1,109 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="container" style="max-width: 1200px;">
+{% block title %}Top Restaurants{% endblock %}
 
-    <!-- Page Title -->
-    <h1 class="text-center fw-bold mb-4" style="font-size: 2.5rem; color: #6a1b9a;">
+{% block content %}
+<style>
+.vendor-card {
+    width: 300px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    transition: all 0.35s ease;
+}
+
+.vendor-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+}
+
+.vendor-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.vendor-card:hover .vendor-img {
+    transform: scale(1.06);
+}
+
+.vendor-title a {
+    text-decoration: none;
+    color: #6a1b9a;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.vendor-title a:hover {
+    color: #ba68c8;
+}
+
+.section-chip {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 14px 35px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #6a1b9a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.5);
+    text-align: center;
+    display: inline-block;
+}
+
+.banner-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+}
+</style>
+
+<div class="container" style="max-width:1200px;">
+
+    <h1 class="text-center fw-bold mb-4" style="font-size:2.6rem; color:#6a1b9a;">
         Top Restaurants
     </h1>
 
-    <!-- Banner Image -->
     <div class="mb-5">
-        <img src="{% static 'images/cafe-1869656_1280.jpg' %}" alt="Banner"
-            style="width:100%; height:250px; object-fit:cover; border-radius:15px; box-shadow:0 6px 20px rgba(0,0,0,0.15);">
+        <img src="{% static 'images/cafe-1869656_1280.jpg' %}" class="banner-img" alt="Banner">
     </div>
 
-    <div style="
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 20px 30px;
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #6a1b9a;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.5);
-">
-        Restaurants List
+    <div class="text-center mb-5">
+        <span class="section-chip">Restaurants List</span>
     </div>
-    <!-- Vendor Cards -->
-    <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center;">
+
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+
         {% for i in vendors %}
-        <div style="width:300px; flex:0 0 auto;">
-            <div style="
-                background: rgba(255,255,255,0.95);
-                border-radius:20px;
-                overflow:hidden;
-                box-shadow:0 6px 18px rgba(0,0,0,0.1);
-                transition:0.3s;
-            " onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.25)';"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.1)';">
+        <div class="vendor-card">
 
-                {% if i.restaurant_img %}
-                <img src="{{ i.restaurant_img.url }}" alt="{{ i.restaurant_name }}"
-                    style="width:100%; height:200px; object-fit:cover; transition: transform 0.3s;"
-                    onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
-                {% else %}
-                <div
-                    style="height:200px; display:flex; align-items:center; justify-content:center; background:#f0f0f0; color:#aaa;">
-                    No Image Available
-                </div>
-                {% endif %}
-
-                <div style="padding:15px; text-align:center;">
-                    <h5 style="font-weight:600; color:#4a148c; margin-bottom:5px;">
-                        <a href="{% url 'vendors_details' i.id %}" style="text-decoration:none; color:#6a1b9a;"
-                            onmouseover="this.style.color='#ba68c8';" onmouseout="this.style.color='#6a1b9a';">
-                            {{ i.restaurant_name }}
-                        </a>
-                    </h5>
-                </div>
-
+            {% if i.restaurant_img %}
+            <img src="{{ i.restaurant_img.url }}" alt="{{ i.restaurant_name }}" class="vendor-img">
+            {% else %}
+            <div class="d-flex align-items-center justify-content-center bg-light text-muted"
+                 style="height:200px;">
+                No Image Available
             </div>
+            {% endif %}
+
+            <div class="p-3 text-center">
+                <h5 class="vendor-title mb-0">
+                    <a href="{% url 'vendors_details' i.id %}">
+                        {{ i.restaurant_name }}
+                    </a>
+                </h5>
+            </div>
+
         </div>
         {% endfor %}
+
     </div>
 
 </div>
-
 {% endblock %}

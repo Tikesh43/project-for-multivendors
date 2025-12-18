@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import  BasicUpdateForm
 from .models import  RegistrationDetails
-from venderapp.models import Multivendors,MenuBuild
+from venderapp.models import Multivendors,MenuBuild,Order
 from shoppingapp.forms import RegistrationForm, RegisterDetails
 from django.contrib.auth.models import User
 
@@ -26,8 +26,16 @@ def success(request):
 
 
 def base(request):
-    return render(request, "base.html")
-
+    user = request.user
+    context = {}
+    if hasattr(user, "multivendors"):
+        context['user_type'] = 'vendor'
+    elif hasattr(user, "registrationdetails"):
+        context['user_type'] = 'customer'
+    else:
+        context['user_type'] = 'unknown'
+    # return render(request, "dashboard.html", context)
+    return render(request, "base.html", context)
 
 def Profile(request):
     return render(request, "profile_page.html")
@@ -93,28 +101,44 @@ def login_view(request):
 
 
 # ------------------- Dashboard -------------------
-
 @login_required(login_url='login')
 def dashboard(request):
     user = request.user
     context = {}
 
-    # Check if user is a Vendor
+    # ================= VENDOR DASHBOARD =================
     if hasattr(user, "multivendors"):
         multivendors = user.multivendors
+
         context['user_type'] = 'vendor'
         context['multivendors'] = multivendors
 
-        # Fetch menu items for this vendor
-        menu_items = MenuBuild.objects.all()  # अगर MenuBuild में vendor field add किया है तो filter करें
-        context['menu_items'] = menu_items
+        # ✅ Vendor-wise menu items
+        context['menu_items'] = MenuBuild.objects.filter(
+            vendor=multivendors
+        )
 
-    # Check if user is a Customer
+        # ✅ ORDER COUNTS (ADD HERE 👇)
+        context['received_orders_count'] = Order.objects.filter(
+            status='received'
+        ).count()
+
+        context['cancelled_orders_count'] = Order.objects.filter(
+            status='cancelled'
+        ).count()
+
+        context['delivered_orders_count'] = Order.objects.filter(
+            status='delivered'
+        ).count()
+
+    # ================= CUSTOMER DASHBOARD =================
     elif hasattr(user, "registrationdetails"):
-        customer = user.registrationdetails  # small fix: registrationdetails lowercase
+        customer = user.registrationdetails
+
         context['user_type'] = 'customer'
         context['customer'] = customer
 
+    # ================= UNKNOWN =================
     else:
         context['user_type'] = 'unknown'
 

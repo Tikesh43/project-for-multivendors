@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="text-align:center; padding:80px;">
+
+    <h2 style="color:#4a148c; font-weight:700;">🏢 Franchise Details</h2>
+
+    {% if franchise %}
+        <div style="
+            margin: 30px auto;
+            width: 60%;
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: left;
+            font-size: 18px;
+            line-height: 1.7;
+        ">
+            <p><strong>Vendor Name:</strong> {{ franchise.vender.restaurant_name }}</p>
+            <p><strong>Total Investment:</strong> ₹{{ franchise.total_investment }}</p>
+            <p><strong>Agreement Years:</strong> {{ franchise.total_year_of_agreement }}</p>
+            <p><strong>Profit Share:</strong> {{ franchise.profit_share }}%</p>
+
+            {% if franchise.description %}
+                <p><strong>Description:</strong> {{ franchise.description }}</p>
+            {% endif %}
+
+            <!-- BUTTONS -->
+            <div style="margin-top:25px; display:flex; gap:15px; flex-wrap:wrap;">
+
+                <!-- EMI BUTTON -->
+                <a href="{% url 'emi_cal' franchise.id %}" style="
+                    background: linear-gradient(135deg, #0277bd, #01579b);
+                    color:white;
+                    padding:12px 25px;
+                    border-radius:10px;
+                    font-weight:700;
+                    text-decoration:none;
+                ">
+                    💳 EMI Option
+                </a>
+
+                <!-- ACCEPT BUTTON -->
+                {% if user.is_authenticated %}
+                    {% if already_accepted %}
+                        <button disabled style="
+                            background:#aaa;
+                            color:white;
+                            padding:12px 25px;
+                            border-radius:10px;
+                            border:none;
+                            font-weight:700;
+                        ">
+                            ✔ Already Accepted
+                        </button>
+                    {% else %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" style="
+                                background: linear-gradient(135deg, #2e7d32, #1b5e20);
+                                color:white;
+                                padding:12px 25px;
+                                border-radius:10px;
+                                font-weight:700;
+                                border:none;
+                                cursor:pointer;
+                            ">
+                                ✅ Accept Franchise
+                            </button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" style="
+                        background:#8e24aa;
+                        color:white;
+                        padding:12px 25px;
+                        border-radius:10px;
+                        font-weight:700;
+                        text-decoration:none;
+                    ">
+                        Login to Accept
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- BACK BUTTON -->
+            <div style="margin-top: 25px; text-align:center;">
+                <a href="{% url 'dashboard' %}" style="
+                    background:#555;
+                    color:white;
+                    padding:12px 25px;
+                    border-radius:10px;
+                    font-weight:700;
+                    text-decoration:none;
+                    display:inline-block;
+                ">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <p>No franchise details found.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

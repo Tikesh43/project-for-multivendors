@@ -1,33 +1,89 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
+{% block title %}Update Profile{% endblock %}
+
 {% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
 
-<div class="container col-md-6 mt-5">
+            <div class="premium-card">
 
-    <h3 class="text-primary mb-4 text-center">Update Profile</h3>
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-gear fs-1 mb-2" style="color:#6a1b9a;"></i>
+                    <h3 class="fw-bold mb-1">Update Profile</h3>
+                    <p class="text-muted">Manage your personal information</p>
+                </div>
 
-    <form method="POST" class="shadow p-4 rounded bg-white" enctype="multipart/form-data">
-        {% csrf_token %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-        <h5 class="mb-3">Account Info</h5>
-        {{ user_form.as_p }}
+                    <div class="form-section">
+                        <h6 class="section-title">Account Information</h6>
+                        {{ user_form.as_p }}
+                    </div>
 
-        <!-- Phone Number -->
-        <h5 class="mb-3 mt-4">Phone Number</h5>
-        {{ phone_form.as_p }}
+                    <div class="form-section mt-4">
+                        <h6 class="section-title">Phone Number</h6>
+                        {{ phone_form.as_p }}
+                    </div>
 
-        <!-- Update Button -->
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success px-4">Update</button>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-gradient px-5 py-2">
+                            <i class="bi bi-save2 me-1"></i>
+                            Update
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+
+            </div>
+
         </div>
-    </form>
-
-    <!-- Back Button -->
-    <div class="text-center mt-3">
-        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
-
 </div>
 
+<style>
+.form-section {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.section-title {
+    font-weight: 600;
+    color: #6a1b9a;
+    margin-bottom: 12px;
+}
+
+input,
+select,
+textarea {
+    border-radius: 12px !important;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(106, 27, 154, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(106, 27, 154, 0.55);
+    color: #fff;
+}
+</style>
 {% endblock %}

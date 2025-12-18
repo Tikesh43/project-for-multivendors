@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    font-family: 'Poppins', sans-serif;
+">
+
+    <!-- Title -->
+    <h2 style="
+        text-align:center;
+        font-size:2.8rem;
+        font-weight:800;
+        margin-bottom:40px;
+        background: linear-gradient(135deg, #8e24aa, #d500f9, #4a148c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    ">
+        🧾 Checkout
+    </h2>
+
+    {% if cart_items %}
+
+    <!-- Cart Summary -->
+    <div style="margin-bottom:40px;">
+        <h3 style="font-size:1.6rem; font-weight:700; color:#6a1b9a; margin-bottom:20px;">Order Summary</h3>
+
+        {% for item in cart_items %}
+        <div style="
+                display:flex;
+                justify-content: space-between;
+                align-items:center;
+                padding:12px 0;
+                border-bottom:1px solid #ddd;
+            ">
+            <div>
+                <strong>{{ item.food.food_name }}</strong> × {{ item.quantity }}
+            </div>
+            <div style="font-weight:700; color:#2e7d32;">₹{{ item.total_price }}</div>
+        </div>
+        {% endfor %}
+
+        <div style="
+                display:flex;
+                justify-content: space-between;
+                margin-top:20px;
+                font-size:1.3rem;
+                font-weight:800;
+                color:#1b5e20;
+            ">
+            <span>Total:</span>
+            <span>₹{{ cart_total }}</span>
+        </div>
+    </div>
+
+    <!-- Checkout Form -->
+    <form method="POST" action="{% url 'place_order' %}">
+        {% csrf_token %}
+
+        <h3 style="font-size:1.6rem; font-weight:700; color:#6a1b9a; margin-bottom:20px;">Delivery Details</h3>
+
+        <div style="margin-bottom:20px;">
+            <label for="name" style="display:block; margin-bottom:6px; font-weight:600;">Full Name</label>
+            <input type="text" name="name" id="name" required style="
+                width:100%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #ccc;
+            ">
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <label for="address" style="display:block; margin-bottom:6px; font-weight:600;">Address</label>
+            <textarea name="address" id="address" rows="3" required style="
+                width:100%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #ccc;
+            "></textarea>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <label for="phone" style="display:block; margin-bottom:6px; font-weight:600;">Phone Number</label>
+            <input type="text" name="phone" id="phone" required style="
+                width:100%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #ccc;
+            ">
+        </div>
+
+        <h3 style="font-size:1.6rem; font-weight:700; color:#6a1b9a; margin-bottom:20px;">Payment Method</h3>
+
+        <div style="margin-bottom:20px;">
+            <label>
+                <input type="radio" name="payment_method" value="COD" checked>
+                Cash on Delivery
+            </label>
+        </div>
+
+        <div style="margin-bottom:30px;">
+            <label>
+                <input type="radio" name="payment_method" value="Online">
+                Pay Online
+            </label>
+        </div>
+
+        <button type="submit" style="
+            width:100%;
+            padding:15px;
+            background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+            color:white;
+            font-size:1.2rem;
+            font-weight:700;
+            border:none;
+            border-radius:12px;
+            cursor:pointer;
+            transition:0.3s;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            Place Order
+        </button>
+
+    </form>
+
+    {% else %}
+
+    <div style="
+        text-align:center;
+        padding: 60px 30px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 20px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    ">
+        <h3 style="font-size:1.8rem; font-weight:700; color:#ff6f00;">
+            Your cart is empty 😕
+        </h3>
+        <p style="margin-top:12px; color:#444;">Add some items before checking out!</p>
+
+        <a href="/vendor_list/" style="
+            background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+            color:white;
+            padding:12px 30px;
+            border-radius:10px;
+            font-weight:700;
+            text-decoration:none;
+            display:inline-block;
+            margin-top:20px;
+        ">
+            Browse Restaurants
+        </a>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

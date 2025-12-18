@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding:80px; max-width:600px;">
+
+    <h2 class="text-center text-primary mb-4">EMI Calculator</h2>
+
+    {% if franchise %}
+        <div class="card shadow p-4">
+
+            <!-- Basic Details -->
+            <p><strong>Restaurant Name:</strong> {{ franchise.vender.restaurant_name }}</p>
+            <p><strong>Investment Amount:</strong> ₹{{ franchise.total_investment }}</p>
+            <p><strong>Total Years of Agreement:</strong> {{ franchise.total_year_of_agreement }} Years</p>
+
+            <hr>
+
+            <!-- EMI Form -->
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="loanAmount" class="form-label">Loan Amount (₹)</label>
+                    <input type="number" class="form-control" id="loanAmount" name="loan_amount"
+                           value="{{ result.loan_amount }}" min="0" step="1000" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="loanTenure" class="form-label">Loan Tenure (Years)</label>
+                    <select class="form-select" id="loanTenure" name="loan_tenure">
+                        <option value="1" {% if result.loan_tenure == 1 %}selected{% endif %}>1 Year (13%)</option>
+                        <option value="2" {% if result.loan_tenure == 2 %}selected{% endif %}>2 Years (11%)</option>
+                        <option value="5" {% if result.loan_tenure == 5 %}selected{% endif %}>5 Years (10%)</option>
+                        <option value="7" {% if result.loan_tenure == 7 %}selected{% endif %}>7 Years (9%)</option>
+                        <option value="10" {% if result.loan_tenure == 10 %}selected{% endif %}>10 Years (8%)</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Interest Rate (% per year)</label>
+                    <input type="number" class="form-control" value="{{ result.interest_rate }}" readonly>
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary w-100">Calculate EMI</button>
+                <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2">⬅ Back</a>
+            </form>
+
+            {% if result and not error %}
+                <hr>
+                <h5>EMI Results:</h5>
+                <p><strong>Monthly EMI:</strong> ₹{{ result.emi }}</p>
+                <p><strong>Total Payment (Principal + Interest):</strong> ₹{{ result.total_payment }}</p>
+                <p><strong>Total Interest Payable:</strong> ₹{{ result.total_interest }}</p>
+            {% endif %}
+
+        </div>
+    {% else %}
+        <p class="text-danger text-center">No franchise data available.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

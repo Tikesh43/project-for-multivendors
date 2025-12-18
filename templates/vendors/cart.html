@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 20px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    font-family: 'Poppins', sans-serif;
+">
+
+    <!-- Title -->
+    <h2 style="
+        text-align:center;
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 40px;
+        background: linear-gradient(135deg, #8e24aa, #d500f9, #4a148c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    ">
+        🛒 Your Cart
+    </h2>
+
+    {% if cart_items %}
+
+        {% for item in cart_items %}
+        <div style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: rgba(255,255,255,0.85);
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 18px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+                transition: 0.3s ease;
+            " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+
+            <!-- Food Name & Quantity -->
+            <div>
+                <h3 style="font-size:1.4rem; font-weight:700; color:#6a1b9a;">
+                    {{ item.food.food_name }}
+                </h3>
+                <div style="display:flex; align-items:center; margin-top:8px;">
+                    <!-- Minus Button -->
+                    <button type="button" onclick="changeQty({{ item.id }}, -1)" style="
+                            width:28px; height:28px; border:none; border-radius:6px;
+                            background:#8e24aa; color:white; font-weight:bold; cursor:pointer;
+                        ">-</button>
+
+                    <!-- Quantity Input -->
+                    <input type="number" id="qty-{{ item.id }}" value="{{ item.quantity }}" min="1" style="
+                            width:50px; text-align:center; margin:0 8px; padding:4px; border-radius:6px; border:1px solid #ccc;
+                        " data-price="{{ item.food.price }}" oninput="updateTotal({{ item.id }})">
+
+                    <!-- Plus Button -->
+                    <button type="button" onclick="changeQty({{ item.id }}, 1)" style="
+                            width:28px; height:28px; border:none; border-radius:6px;
+                            background:#6a1b9a; color:white; font-weight:bold; cursor:pointer;
+                        ">+</button>
+                </div>
+            </div>
+
+            <!-- Total Price -->
+            <p style="
+                    font-size:1.3rem;
+                    font-weight:800;
+                    color:#2e7d32;
+                    margin:0;
+                ">
+                ₹<span id="total-{{ item.id }}">{{ item.total_price }}</span>
+            </p>
+
+        </div>
+        {% endfor %}
+
+        <!-- Cart Total -->
+        <div style="text-align:right; font-size:1.5rem; font-weight:800; color:#1b5e20; margin-top:20px;">
+            Cart Total: ₹<span id="cart-total">0</span>
+        </div>
+
+        <!-- Proceed Button -->
+        <div style="text-align:center; margin-top:30px;">
+            <a href="{% url 'checkout' %}" style="
+                    background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+                    color:white;
+                    padding:15px 40px;
+                    border-radius:14px;
+                    font-size:1.1rem;
+                    font-weight:700;
+                    text-decoration:none;
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+                    transition:0.3s;
+                " onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+                Proceed to Checkout
+            </a>
+        </div>
+
+    {% else %}
+
+        <!-- Empty Cart Message -->
+        <div style="
+            text-align:center;
+            padding: 60px 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        ">
+            <h3 style="font-size:1.8rem; font-weight:700; color:#ff6f00;">
+                Your cart is empty 😕
+            </h3>
+            <p style="margin-top:12px; color:#444;">Start adding delicious food items!</p>
+
+            <a href="/vendor_list/" style="
+                background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+                color:white;
+                padding:12px 30px;
+                border-radius:10px;
+                font-weight:700;
+                text-decoration:none;
+                display:inline-block;
+                margin-top:20px;
+            ">
+                Browse Restaurants
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+function changeQty(id, delta) {
+    const input = document.getElementById(`qty-${id}`);
+    let qty = parseInt(input.value) + delta;
+    if (qty < 1) qty = 1;
+    input.value = qty;
+    updateTotal(id);
+}
+
+function updateTotal(id) {
+    const input = document.getElementById(`qty-${id}`);
+    const qty = parseInt(input.value) || 1;
+    input.value = qty;
+
+    const price = parseFloat(input.dataset.price);
+    const totalEl = document.getElementById(`total-${id}`);
+    totalEl.innerText = (price * qty).toFixed(2);
+
+    updateCartTotal();
+}
+
+function updateCartTotal() {
+    let total = 0;
+    {% for item in cart_items %}
+    total += parseFloat(document.getElementById('total-{{ item.id }}').innerText);
+    {% endfor %}
+    document.getElementById('cart-total').innerText = total.toFixed(2);
+}
+
+// Initialize cart total on page load
+window.onload = updateCartTotal;
+</script>
+
+{% endblock %}

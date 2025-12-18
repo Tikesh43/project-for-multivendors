@@ -90,6 +90,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # !!! Add this !!!
                 'django_auto_logout.context_processors.auto_logout_client',
+                # 'venderapp.context_processors.cart_count',
+                'venderapp.context_processors.user_type_processor',
+
             ],
         },
     },
@@ -174,7 +177,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # auto logout config
 AUTO_LOGOUT = {
-    'IDLE_TIME': 60,  # in seconds
-    'SESSION_TIME': 300,  # in seconds
+    'IDLE_TIME': 3000,  # user idle timeout (5 minutes)
+    'SESSION_TIME': 3000,  # max session time (5 minutes)
     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
 }

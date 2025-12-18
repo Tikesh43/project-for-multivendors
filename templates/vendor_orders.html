@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="
+    width:95%; 
+    margin:50px auto; 
+    padding:30px; 
+    background: rgba(255,255,255,0.95); 
+    border-radius:20px; 
+    box-shadow:0 12px 30px rgba(0,0,0,0.15); 
+    font-family:'Poppins', sans-serif;
+">
+
+    <h3 style="
+        color:#6a1b9a; 
+        font-weight:700; 
+        margin-bottom:30px;
+        font-size:1.8rem;
+        text-align:center;
+    ">Your Orders</h3>
+
+    {% if orders %}
+    <table style="
+        width:100%; 
+        border-collapse:collapse; 
+        box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    ">
+        <thead>
+            <tr style="
+                border-bottom:2px solid #ddd;
+                background:linear-gradient(135deg,#8e24aa,#d500f9);
+                color:white;
+                text-align:left;
+            ">
+                <th style="padding:12px 15px;">ID</th>
+                <th style="padding:12px 15px;">Customer</th>
+                <th style="padding:12px 15px;">Total</th>
+                <th style="padding:12px 15px;">Status</th>
+                <th style="padding:12px 15px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr style="
+                border-bottom:1px solid #eee;
+                transition:background 0.3s;
+            " onmouseover="this.style.background='rgba(155,39,176,0.05)';" onmouseout="this.style.background='transparent';">
+                <td style="padding:12px 15px;">#{{ order.id }}</td>
+                <td style="padding:12px 15px;">{{ order.user.username }}</td>
+                <td style="padding:12px 15px;">₹{{ order.total_amount }}</td>
+                <td style="padding:12px 15px; text-transform:capitalize;">
+                    {% if order.status == 'received' %}
+                        <span style="color:#f9a825; font-weight:600;">{{ order.status }}</span>
+                    {% elif order.status == 'cancelled' %}
+                        <span style="color:#e53935; font-weight:600;">{{ order.status }}</span>
+                    {% else %}
+                        <span style="color:#43a047; font-weight:600;">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td style="padding:12px 15px;">
+                    {% if order.status != 'delivered' %}
+                    <a href="{% url 'mark_order_delivered' order.id %}" style="
+                        display:inline-block;
+                        padding:6px 15px;
+                        background: #1e88e5;
+                        color:#fff;
+                        border-radius:50px;
+                        font-weight:600;
+                        text-decoration:none;
+                        transition:0.3s;
+                    " onmouseover="this.style.background='#1565c0';" onmouseout="this.style.background='#1e88e5';">
+                        Mark as Delivered
+                    </a>
+                    {% else %}
+                    <span style="
+                        display:inline-block;
+                        color:#43a047;
+                        font-weight:700;
+                        padding:6px 12px;
+                        border-radius:20px;
+                        background: rgba(67,160,71,0.1);
+                    ">Delivered ✔</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="
+        color:#999; 
+        text-align:center; 
+        font-size:1.2rem; 
+        padding:40px 0;
+    ">No orders yet.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

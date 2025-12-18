@@ -5,84 +5,136 @@
 
 {% block content %}
 <div class="container py-5">
-    <div class="shadow p-4 rounded bg-white">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+            <div class="premium-card">
 
-        {% if registered %}
-            <h2 class="mb-4 text-center text-success">
-                Thank you, form submitted successfully!
-            </h2>
+                {% if registered %}
+                <div class="text-center py-5">
+                    <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+                    <h2 class="fw-bold text-success mb-3">Registration Successful!</h2>
+                    <p class="text-muted mb-4">Your account has been created successfully.</p>
+                    <a href="{% url 'login' %}" class="btn btn-gradient px-4">
+                        Login to your account
+                    </a>
+                </div>
+                {% else %}
 
-            <p class="text-center">
-                Try to login to your account:
-                <a href="{% url 'login' %}" class="fw-bold">Login</a>
-            </p>
-
-        {% else %}
-
-            <h2 class="mb-4 text-center">Registration Form</h2>
-
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-
-                <!-- 1st row -->
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        {{ forms1.username|as_crispy_field }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ forms1.email|as_crispy_field }}
-                    </div>
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-1">Create Your Account</h2>
+                    <p class="text-muted">Please fill in the details to register</p>
                 </div>
 
-                <!-- 2nd row -->
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        {{ forms2.house_no|as_crispy_field }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ forms2.phone|as_crispy_field }}
-                    </div>
-                </div>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-                <!-- 3rd row -->
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        {{ forms2.street|as_crispy_field }}
+                    <div class="form-section">
+                        <h6 class="section-title">Account Information</h6>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                {{ forms1.username|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ forms1.email|as_crispy_field }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        {{ forms2.city|as_crispy_field }}
-                    </div>
-                </div>
 
-                <!-- 4th row -->
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        {{ forms2.state|as_crispy_field }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ forms2.zipcode|as_crispy_field }}
-                    </div>
-                </div>
+                    <div class="form-section mt-4">
+                        <h6 class="section-title">Contact Details</h6>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                {{ forms2.house_no|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ forms2.phone|as_crispy_field }}
+                            </div>
+                        </div>
 
-                <!-- Full width fields -->
-                <div class="row g-4 mt-2">
-                    <div class="col-12">
-                        {{ forms2.userpic|as_crispy_field }}
+                        <div class="row g-4 mt-1">
+                            <div class="col-md-6">
+                                {{ forms2.street|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ forms2.city|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mt-1">
+                            <div class="col-md-6">
+                                {{ forms2.state|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ forms2.zipcode|as_crispy_field }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        {{ forms1.password|as_crispy_field }}
+
+                    <div class="form-section mt-4">
+                        <h6 class="section-title">Security</h6>
+                        <div class="row g-4">
+                            <div class="col-12">
+                                {{ forms1.password|as_crispy_field }}
+                            </div>
+                            <div class="col-12">
+                                {{ forms2.userpic|as_crispy_field }}
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Captcha -->
-                <div class="mt-4">
-                    {{ forms2.captcha|as_crispy_field }}
-                </div>
+                    <div class="mt-4">
+                        {{ forms2.captcha|as_crispy_field }}
+                    </div>
 
-                <button type="submit" class="btn btn-primary mt-3">REGISTER</button>
-            </form>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-gradient px-5 py-2">
+                            <i class="bi bi-person-plus-fill me-1"></i>
+                            Register
+                        </button>
+                    </div>
+                </form>
 
-        {% endif %}
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+.form-section {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.section-title {
+    font-weight: 600;
+    color: #6a1b9a;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(106, 27, 154, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(106, 27, 154, 0.55);
+    color: #fff;
+}
+
+input,
+select,
+textarea {
+    border-radius: 12px !important;
+}
+</style>
 {% endblock %}

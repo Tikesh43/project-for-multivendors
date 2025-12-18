@@ -4,7 +4,7 @@ from shoppingapp import views
 
 
 urlpatterns = [
-    path("", views.base, name="base"),
+    path("", views.register, name="register"),
 
     
     path("data/", views.data, name="data"),
